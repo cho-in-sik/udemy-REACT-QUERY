@@ -1,5 +1,5 @@
 import type { Treatment } from '@shared/types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '@/axiosInstance';
 import { queryKeys } from '@/react-query/constants';
 
@@ -16,4 +16,12 @@ export function useTreatments(): Treatment[] {
     queryFn: getTreatments,
   });
   return data;
+}
+
+export function usePrefetchTreatments() {
+  const queryClient = useQueryClient();
+  queryClient.prefetchQuery({
+    queryKey: [queryKeys.treatments],
+    queryFn: getTreatments,
+  });
 }
