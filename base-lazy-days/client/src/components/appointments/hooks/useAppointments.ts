@@ -10,6 +10,11 @@ import { axiosInstance } from '@/axiosInstance';
 import { queryKeys } from '@/react-query/constants';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
+const commonOptions = {
+  staleTime: 0,
+  gcTime: 30000,
+};
+
 // for useQuery call
 async function getAppointments(
   year: string,
@@ -74,6 +79,7 @@ export function useAppointments() {
         nextMonthYear.month,
       ],
       queryFn: () => getAppointments(nextMonthYear.year, nextMonthYear.month),
+      ...commonOptions,
     });
   }, [queryClient, monthYear]);
   // Notes:
@@ -88,6 +94,9 @@ export function useAppointments() {
     queryKey: [queryKeys.treatments, monthYear.year, monthYear.month],
     queryFn: () => getAppointments(monthYear.year, monthYear.month),
     select: (data) => selectFn(data, showAll),
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
+    ...commonOptions,
   });
 
   /** ****************** END 3: useQuery  ******************************* */
