@@ -91,7 +91,7 @@ export function useAppointments() {
   const fallback: AppointmentDateMap = {};
 
   const { data: appointments = fallback } = useQuery({
-    queryKey: [queryKeys.treatments, monthYear.year, monthYear.month],
+    queryKey: [queryKeys.appointments, monthYear.year, monthYear.month],
     queryFn: () => getAppointments(monthYear.year, monthYear.month),
     select: (data) => selectFn(data, showAll),
     refetchInterval: 60000,
